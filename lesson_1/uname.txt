@@ -1,4 +1,0 @@
-ubuntu@ip-172-31-34-84:~$ uname -no
-ip-172-31-34-84 GNU/Linux
-ubuntu@ip-172-31-34-84:~$ uname -srvm
-Linux 4.15.0-1065-aws #69-Ubuntu SMP Thu Mar 26 02:17:29 UTC 2020 x86_64
