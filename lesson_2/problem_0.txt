@@ -1,6 +1,0 @@
-ubuntu@ip-172-31-37-88:~$ PS1='$'
-$whoami
-ubuntu
-$pwd
-/home/ubuntu
-$

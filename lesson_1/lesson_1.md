@@ -17,10 +17,10 @@
 
 ### Решение
 
-2. launched AWS instance
+2. Launch the AWS instance.
 ![AWS instances](AWS_instances.png)
 
-3. connection to AWS instance
+3. Connect to the AWS instance.
 ```
 ubuntu@ip-172-31-34-84:~$ uname -no
 ip-172-31-34-84 GNU/Linux
