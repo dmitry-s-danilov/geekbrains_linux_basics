@@ -1,0 +1,4 @@
+$mv first first_second
+$ls
+first_second
+$

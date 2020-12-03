@@ -1,0 +1,16 @@
+$pwd
+/home/ubuntu
+$mkdir first
+$mkdir second
+$ls
+first  second
+$echo 'print(1)' > first/first.py
+$ls first
+first.py
+$python3 first/first.py 
+1
+$echo 'print(2)' > second/second.py 
+$ls second
+second.py
+$python3 second/second.py 
+2

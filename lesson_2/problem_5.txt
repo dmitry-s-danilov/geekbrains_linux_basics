@@ -1,0 +1,4 @@
+$rm -r first_second
+$ls -l
+total 0
+$

@@ -1,0 +1,4 @@
+$rm -r second
+$ls
+first
+$
