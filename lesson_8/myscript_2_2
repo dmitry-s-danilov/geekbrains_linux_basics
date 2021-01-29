@@ -1,0 +1,14 @@
+#!/bin/bash
+
+k=2 # set an increment
+n=100 # set a last value
+
+i=0 # set an index to be equal to an initial value
+until [ $i -gt $n ] # iterate until a condition
+do
+    printf "%d " "$i" # print an index
+    let i+=$k # increment an index
+    # or
+    # i=$(( $i + $k ))
+done
+printf "\n"

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for i in {1..3} # iterate over a sequence
+do
+    whoami # run a command
+done

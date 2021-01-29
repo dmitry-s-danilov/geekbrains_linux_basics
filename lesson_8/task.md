@@ -1,0 +1,240 @@
+# Geekbrains. Введение в Linux и облачные вычисления
+
+## Урок 8:. Переменные и циклы. Запуск по расписанию
+
+- Использование переменных и циклов в командной строке.
+- Просмотр истории команд.
+- Запуск программ по расписанию (cron)
+
+## Практическое задание
+
+1. Вывести на экран 3 раза имя пользователя,
+от которого запускается команда.
+2. Вывести с помощью цикла *while*
+все четные числа от 0 до 100 включительно.
+3. Создать с помощью *nano* файл *test.txt*.
+Настроить автоматический бэкап этого файла
+раз в 10 минут в файл с названием *test.txt.bak*
+с использованием *cron*.
+
+## Решение
+
+### 1. Print username for multiple times
+
+Print for 3 times the user who launched the program.
+
+The simplest implementation *myscript_1_1*
+based on *for* loop:
+
+```bash
+#!/bin/bash
+
+for i in {1..3} # iterate over a sequence
+do
+    whoami # run a command
+done
+```
+
+Run *myscript_1_1*:
+
+```
+dd@io:~/playground> ./myscript_1_1
+dd
+dd
+dd
+dd@io:~/playground> sudo ./myscript_1_1
+root
+root
+root
+```
+
+More general implementation *myscript_1_2*
+based on *for* loop:
+
+```bash
+#!/bin/bash
+
+n=3 # set a number of iterations
+c=whoami # set a command to run
+
+for i in $(seq $n) # iterate over a sequence
+do
+    $c # run a command
+done
+```
+
+An implementation *myscript_1_3*
+based on *while* loop:
+
+```bash
+#!/bin/bash
+
+n=3 # set a number of iterations
+c=whoami # set a command to run
+
+i=0 # set an amount of done iterations
+while [ $i -lt $n ] # iterate while a condition
+do
+    $c # run a command
+    let i+=1 # increment an index of iterations
+    # or
+    # i=$(( $i + 1 ))
+done
+```
+
+An implementation *myscript_1_4*
+based on *until* loop:
+
+```bash
+#!/bin/bash
+
+n=3 # set a number of iterations
+c=whoami # set a command to run
+
+i=0 # set an amount of done iterations
+until [ $i -eq $n ] # iterate until a condition
+do
+    $c # run a command
+    let i+=1 # increment an index of iterations
+    # or
+    # i=$(( $i + 1 ))
+done
+```
+
+The most general implementation *myscript_1_5*
+based on *for* loop:
+
+```bash
+#!/bin/bash
+
+n=$1 # set a number of iterations from the first prompt argument
+shift
+c=$@ # set a command to run from other prompt arguments
+
+for i in $(seq $n) # iterate over a sequence
+do
+    $c # run a command
+done
+```
+
+Run *myscript_1_5*
+with necessary arguments:
+
+```
+dd@io:~/playground> ./myscript_1_5 3 whoami
+dd
+dd
+dd
+dd@io:~/playground> sudo ./myscript_1_5 3 whoami
+root
+root
+root
+```
+
+### 2. Print a sequence of numbers
+
+Output all even numbers from 0 to 100 inclusive
+using the *while* loop.
+
+An implementation *my_script_2_1*
+based on *while* loop:
+
+```bash
+#!/bin/bash
+
+k=2 # set an increment
+n=100 # set a last value
+
+i=0 # set an index to be equal to an initial value
+while [ $i -le $n ] # iterate while a condition
+do
+    printf "%d " "$i" # print an index
+    let i+=$k # increment an index
+    # or
+    # i=$(( $i + $k ))
+done
+printf "\n"
+```
+
+Run *myscript_2_1*:
+
+```
+dd@io:~/playground> ./myscript_2_1
+0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98 100 
+```
+
+An implementation *my_script_1_2*
+based on *until* loop:
+
+```bash
+#!/bin/bash
+
+k=2 # set an increment
+n=100 # set a last value
+
+i=0 # set an index to be equal to an initial value
+until [ $i -gt $n ] # iterate until a condition
+do
+    printf "%d " "$i" # print an index
+    let i+=$k # increment an index
+    # or
+    # i=$(( $i + $k ))
+done
+printf "\n"
+```
+
+### 3. Configure automatic file backup
+
+Configure automatic backup of the file *test.txt*
+at every 10th minute
+to a file *test.txt.bak*
+using *cron*.
+
+```
+dd@io:~/playground> touch test.txt # create a file
+dd@io:~/playground> crontab -e # edit crontab
+crontab: installing new crontab
+dd@io:~/playground> crontab -l # list crontab
+#Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * [user-name]  command to be executed
+
+# every 10 minutes backup of test.txt file
+*/10 * * * * cp /home/dd/playground/test.txt /home/dd/playground/test.txt.bak
+dd@io:~/playground> ls -l # list files
+total 0
+-rw-r--r-- 1 dd users 0 Aug  3 10:32 test.txt
+dd@io:~/playground> ls -l # list files time later
+total 0
+-rw-r--r-- 1 dd users 0 Aug  3 10:32 test.txt
+-rw-r--r-- 1 dd users 0 Aug  3 10:40 test.txt.bak
+dd@io:~/playground> sudo cat /var/spool/cron/tabs/dd > test.txt # modify the file
+dd@io:~/playground> ls -l # list files time later
+total 8
+-rw-r--r-- 1 dd users 617 Aug  3 10:44 test.txt
+-rw-r--r-- 1 dd users 617 Aug  3 10:50 test.txt.bak
+dd@io:~/playground> cat test.txt.bak # concatenate backup file
+# DO NOT EDIT THIS FILE - edit the master and reinstall.
+# (/tmp/crontab.b19kiH installed on Mon Aug  3 10:33:01 2020)
+# (Cronie version 4.2)
+#Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * [user-name]  command to be executed
+
+# every 10 minutes backup of test.txt file
+*/10 * * * * cp /home/dd/playground/test.txt /home/dd/playground/test.txt.bak
+dd@io:~/playground> crontab -r # delete crontab
+dd@io:~/playground> crontab -l # list crontab
+no crontab for dd
+```
+

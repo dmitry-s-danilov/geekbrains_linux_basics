@@ -1,0 +1,13 @@
+#!/bin/bash
+
+n=3 # set a number of iterations
+c=whoami # set a command to run
+
+i=0 # set an amount of done iterations
+while [ $i -lt $n ] # iterate while a condition
+do
+    $c # run a command
+    let i+=1 # increment an index of iterations
+    # or
+    # i=$(( $i + 1 ))
+done

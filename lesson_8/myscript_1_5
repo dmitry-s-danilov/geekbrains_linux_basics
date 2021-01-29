@@ -1,0 +1,10 @@
+#!/bin/bash
+
+n=$1 # set a number of iterations from the first promot argument
+shift
+c=$@ # set a command to run from other prompt arguments
+
+for i in $(seq $n) # iterate over a sequence
+do
+    $c # run a command
+done

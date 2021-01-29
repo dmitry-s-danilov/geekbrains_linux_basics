@@ -1,0 +1,9 @@
+#!/bin/bash
+
+n=3 # set a number of iterations
+c=whoami # set a command to run
+
+for i in $(seq $n) # iterate over a sequence
+do
+    $c # run a command
+done
